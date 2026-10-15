@@ -43,7 +43,7 @@ The project uses a **Feature-First** structure with strict 3-layer separation (*
 | Layer | Responsibility | Components |
 | :--- | :--- | :--- |
 | **Presentation** | Displays UI and manages UI state | Screens, widgets, Riverpod Notifiers & FutureProviders |
-| **Domain** | Pure business logic and use cases | Models (`Product`, `Review`), repository interface (`ProductRepository`), and use cases (`GetProductsUseCase`, `SearchProductsUseCase`, `GetProductDetailUseCase`, `GetCategoriesUseCase`) |
+| **Domain** | Pure business logic and use cases | Entities (`Product`, `Review`), repository interface (`ProductRepository`), and use cases (`GetProductsUseCase`, `SearchProductsUseCase`, `GetProductDetailUseCase`, `GetCategoriesUseCase`) |
 | **Data** | Fetches and deserializes remote data | DTO models with mapping (`ProductDto`, `ReviewDto`), API service (`ProductApiService`), repository implementation (`ProductRepositoryImpl`) |
 
 ### Folder Structure
@@ -80,7 +80,7 @@ lib/
 │       │   ├── repositories/           # ProductRepositoryImpl
 │       │   └── services/               # ProductApiService (http calls)
 │       ├── domain/
-│       │   ├── models/                 # Pure domain entities (Product, Review)
+│       │   ├── entities/               # Pure domain entities (Product, Review)
 │       │   ├── repositories/           # ProductRepository interface
 │       │   └── use_cases/              # Single-purpose use cases
 │       └── presentation/
