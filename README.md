@@ -6,9 +6,9 @@ A Flutter e-commerce product catalog application built for the Go UniCrew techni
 
 ## Screenshots
 
-| Splash Screen | Product Catalog & Categories | Product Detail & Reviews | Search & Empty State |
-| :---: | :---: | :---: | :---: |
-| <img src="screenshots/splash_screen.jpg" width="200" alt="Splash Screen"/> | <img src="screenshots/product_list_screen.jpg" width="200" alt="Product Listing"/> | <img src="screenshots/product_detail_screen.jpg" width="200" alt="Product Detail"/> | <img src="screenshots/search_and_filter.jpg" width="200" alt="Search and Filter"/> |
+| Splash Screen | Product Catalog | Product Detail | Reviews & Specs | Search Results | Empty State |
+| :---: | :---: | :---: | :---: | :---: | :---: |
+| <img src="screenshots/splash_screen.jpeg" width="180" alt="Splash Screen"/> | <img src="screenshots/product_list_screen.jpeg" width="180" alt="Product Listing"/> | <img src="screenshots/product_detail_screen1.jpeg" width="180" alt="Product Detail"/> | <img src="screenshots/product_detail_screen2.jpeg" width="180" alt="Reviews and Specs"/> | <img src="screenshots/search.jpeg" width="180" alt="Search"/> | <img src="screenshots/search_empty.jpeg" width="180" alt="Search Empty State"/> |
 
 ---
 

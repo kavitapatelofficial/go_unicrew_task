@@ -53,10 +53,17 @@ class _SearchBarWidgetState extends ConsumerState<SearchBarWidget> {
 
   @override
   Widget build(BuildContext context) {
-    final currentQuery = ref.watch(searchQueryProvider);
-    if (currentQuery.isEmpty && _controller.text.isNotEmpty) {
-      _controller.clear();
-    }
+    ref.listen<String>(searchQueryProvider, (previous, next) {
+      if (next.isEmpty && _controller.text.isNotEmpty) {
+        _controller.clear();
+        setState(() {});
+      } else if (next != _controller.text) {
+        _controller.text = next;
+        _controller.selection = TextSelection.fromPosition(
+          TextPosition(offset: _controller.text.length),
+        );
+      }
+    });
 
     return Container(
       decoration: BoxDecoration(

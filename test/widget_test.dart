@@ -6,6 +6,7 @@ import 'package:go_unicrew_task/features/products/domain/entities/product.dart';
 import 'package:go_unicrew_task/features/products/presentation/providers/product_providers.dart';
 import 'package:go_unicrew_task/features/products/presentation/screens/product_detail_screen.dart';
 import 'package:go_unicrew_task/features/products/presentation/widgets/product_card.dart';
+import 'package:go_unicrew_task/features/products/presentation/widgets/search_bar_widget.dart';
 import 'package:go_unicrew_task/main.dart';
 
 void main() {
@@ -97,5 +98,35 @@ void main() {
     expect(find.text('Add to Cart'), findsOneWidget);
     expect(find.text('Buy Now'), findsOneWidget);
     expect(find.text('Product Information'), findsOneWidget);
+  });
+
+  testWidgets('SearchBarWidget retains first character and debounce updates query', (WidgetTester tester) async {
+    final container = ProviderContainer();
+    addTearDown(container.dispose);
+
+    await tester.pumpWidget(
+      UncontrolledProviderScope(
+        container: container,
+        child: const MaterialApp(
+          home: Scaffold(
+            body: SearchBarWidget(),
+          ),
+        ),
+      ),
+    );
+
+    // Enter first character 'p'
+    await tester.enterText(find.byType(TextField), 'p');
+    await tester.pump();
+
+    // Verify first character is visible and NOT cleared
+    final textField = tester.widget<TextField>(find.byType(TextField));
+    expect(textField.controller?.text, 'p');
+
+    // Fast forward past debounce duration (350ms)
+    await tester.pump(const Duration(milliseconds: 400));
+
+    // Verify provider updated
+    expect(container.read(searchQueryProvider), 'p');
   });
 }
