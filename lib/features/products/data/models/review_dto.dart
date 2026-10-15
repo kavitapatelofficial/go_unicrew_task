@@ -1,4 +1,4 @@
-import '../../domain/models/review.dart';
+import '../../domain/entities/review.dart';
 
 class ReviewDto {
   final double rating;

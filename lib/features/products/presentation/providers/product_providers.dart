@@ -2,7 +2,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../../core/network/api_client.dart';
 import '../../data/repositories/product_repository_impl.dart';
 import '../../data/services/product_api_service.dart';
-import '../../domain/models/product.dart';
+import '../../domain/entities/product.dart';
 import '../../domain/repositories/product_repository.dart';
 import '../../domain/use_cases/get_categories_use_case.dart';
 import '../../domain/use_cases/get_product_detail_use_case.dart';

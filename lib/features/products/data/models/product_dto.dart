@@ -1,4 +1,4 @@
-import '../../domain/models/product.dart';
+import '../../domain/entities/product.dart';
 import 'review_dto.dart';
 
 class ProductDto {

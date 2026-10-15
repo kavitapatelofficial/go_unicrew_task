@@ -25,7 +25,14 @@ class _MyAppState extends ConsumerState<MyApp> {
   @override
   void initState() {
     super.initState();
-    FlutterNativeSplash.remove();
+    _initSplash();
+  }
+
+  void _initSplash() async {
+    await Future.delayed(const Duration(milliseconds: 1200));
+    if (mounted) {
+      FlutterNativeSplash.remove();
+    }
   }
 
   @override

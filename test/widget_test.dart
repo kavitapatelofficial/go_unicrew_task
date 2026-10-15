@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:go_unicrew_task/core/theme/app_theme.dart';
-import 'package:go_unicrew_task/features/products/domain/models/product.dart';
+import 'package:go_unicrew_task/features/products/domain/entities/product.dart';
 import 'package:go_unicrew_task/features/products/presentation/providers/product_providers.dart';
 import 'package:go_unicrew_task/features/products/presentation/screens/product_detail_screen.dart';
 import 'package:go_unicrew_task/features/products/presentation/widgets/product_card.dart';
@@ -40,6 +40,7 @@ void main() {
       ),
     );
 
+    await tester.pump(const Duration(milliseconds: 1300));
     await tester.pumpAndSettle();
 
     expect(find.text('UniStore'), findsOneWidget);

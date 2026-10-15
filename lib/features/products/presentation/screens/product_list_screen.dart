@@ -6,7 +6,7 @@ import '../../../../core/theme/app_theme.dart';
 import '../../../../core/widgets/empty_state_widget.dart';
 import '../../../../core/widgets/error_state_widget.dart';
 import '../../../../core/widgets/loading_shimmer.dart';
-import '../../domain/models/product.dart';
+import '../../domain/entities/product.dart';
 import '../providers/product_providers.dart';
 import '../widgets/category_filter_bar.dart';
 import '../widgets/product_card.dart';

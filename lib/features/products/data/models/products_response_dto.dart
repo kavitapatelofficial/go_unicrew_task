@@ -1,4 +1,4 @@
-import '../../domain/models/product.dart';
+import '../../domain/entities/product.dart';
 import 'product_dto.dart';
 
 class ProductsResponseDto {
