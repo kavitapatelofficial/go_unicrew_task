@@ -14,29 +14,11 @@ void main() {
   );
 }
 
-class MyApp extends ConsumerStatefulWidget {
+class MyApp extends ConsumerWidget {
   const MyApp({super.key});
 
   @override
-  ConsumerState<MyApp> createState() => _MyAppState();
-}
-
-class _MyAppState extends ConsumerState<MyApp> {
-  @override
-  void initState() {
-    super.initState();
-    _initSplash();
-  }
-
-  void _initSplash() async {
-    await Future.delayed(const Duration(milliseconds: 1200));
-    if (mounted) {
-      FlutterNativeSplash.remove();
-    }
-  }
-
-  @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final router = ref.watch(appRouterProvider);
 
     return MaterialApp.router(

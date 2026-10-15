@@ -40,7 +40,12 @@ void main() {
       ),
     );
 
-    await tester.pump(const Duration(milliseconds: 1300));
+    // Verify splash screen branding
+    expect(find.text('UniStore'), findsOneWidget);
+    expect(find.text('SMART SHOPPING'), findsOneWidget);
+
+    // Advance past splash delay (1800ms) to product catalog
+    await tester.pump(const Duration(milliseconds: 2000));
     await tester.pumpAndSettle();
 
     expect(find.text('UniStore'), findsOneWidget);
