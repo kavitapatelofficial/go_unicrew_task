@@ -1,19 +1,23 @@
 # UniStore - Flutter Product Catalog
 
-A Flutter e-commerce product catalog application built for the Go UniCrew technical evaluation. The app fetches products from the DummyJSON API and implements clean architecture, reactive state management with Riverpod, and declarative routing with GoRouter.
+A Flutter e-commerce product catalog application built for the Go UniCrew technical evaluation. The app fetches products from the DummyJSON API and implements clean architecture, reactive state management with Riverpod, declarative routing with GoRouter, and a branded splash experience.
 
 ---
 
 ## Screenshots
 
-| Product Listing & Categories | Product Detail & Reviews | Search & Filter |
-| :---: | :---: | :---: |
-| <img src="screenshots/product_list_screen.jpg" width="260" alt="Product Listing"/> | <img src="screenshots/product_detail_screen.jpg" width="260" alt="Product Detail"/> | <img src="screenshots/search_and_filter.jpg" width="260" alt="Search and Filter"/> |
+| Splash Screen | Product Catalog & Categories | Product Detail & Reviews | Search & Empty State |
+| :---: | :---: | :---: | :---: |
+| <img src="screenshots/splash_screen.jpg" width="200" alt="Splash Screen"/> | <img src="screenshots/product_list_screen.jpg" width="200" alt="Product Listing"/> | <img src="screenshots/product_detail_screen.jpg" width="200" alt="Product Detail"/> | <img src="screenshots/search_and_filter.jpg" width="200" alt="Search and Filter"/> |
 
 ---
 
 ## Features
 
+- **Branded Splash Screen**:
+  - Pure white **UniStore** brand emblem badge, bold brand title, and letter-spaced subtitle on vibrant `#4F46E5` background.
+  - Native launch configuration for Android (including Android 12+ Splash API with `values-v31` styles and bounded fallback drawables) and iOS storyboard.
+  - In-engine Flutter `SplashScreen` fallback with subtle entry animation and instant frame-synchronized native splash dismissal for zero flicker across all OEM devices (e.g. Vivo, Oppo, Xiaomi, Samsung).
 - **Product Listing**: 2-column responsive grid showing product thumbnail, title, rating, current price, original price, and discount percentage badge.
 - **Search Functionality**: Search with 350ms debounce against DummyJSON's search API, including clear button and empty-state screen with quick reset.
 - **Category Filter**: Dynamically populated horizontal filter chips from the categories endpoint.
@@ -26,7 +30,6 @@ A Flutter e-commerce product catalog application built for the Go UniCrew techni
   - Specifications breakdown (SKU, Warranty, Shipping, Return Policy, Minimum Order Quantity).
   - Customer reviews list with reviewer name, star rating, and feedback comment.
   - Sticky bottom action bar with `SafeArea` padding.
-- **Native Splash Screen**: Custom branded splash screen configured natively for Android (including Android 12+ Splash API) and iOS with UniStore brand colors (`#4F46E5`), replacing the default blank/white startup screen.
 - **Favorites**: In-memory favorite toggle per product with app bar badge counter.
 
 ---
@@ -66,6 +69,11 @@ lib/
 │       └── rating_badge.dart           # Rating pill badge
 │
 ├── features/
+│   ├── splash/
+│   │   └── presentation/
+│   │       └── screens/
+│   │           └── splash_screen.dart  # Branded UniStore splash screen
+│   │
 │   └── products/
 │       ├── data/
 │       │   ├── models/                 # Data transfer objects with .toDomain()
@@ -101,7 +109,8 @@ The application utilizes `flutter_riverpod` (v3.x `Notifier` pattern):
 ## Routing (GoRouter)
 
 - Declarative routing using `go_router`:
-  - `/` &rarr; `ProductListScreen`
+  - `/` &rarr; `SplashScreen` (navigates automatically to `/products` after 1.8s)
+  - `/products` &rarr; `ProductListScreen`
   - `/products/:id` &rarr; `ProductDetailScreen`
 - Supports passing the `Product` entity via `extra` for immediate transitions when tapping a card.
 - Supports fallback fetching via `productDetailProvider(id)` when navigating directly via URL or deep link.
