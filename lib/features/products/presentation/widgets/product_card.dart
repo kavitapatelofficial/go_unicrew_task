@@ -51,7 +51,7 @@ class ProductCard extends ConsumerWidget {
                       imageUrl: product.thumbnail.isNotEmpty
                           ? product.thumbnail
                           : (product.images.isNotEmpty ? product.images.first : ''),
-                      height: 145,
+                      height: 132,
                       width: double.infinity,
                       fit: BoxFit.contain,
                       borderRadius: const BorderRadius.vertical(top: Radius.circular(16)),

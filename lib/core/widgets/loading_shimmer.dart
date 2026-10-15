@@ -41,92 +41,126 @@ class _LoadingShimmerGridState extends State<LoadingShimmerGrid>
       animation: _animation,
       builder: (context, child) {
         final opacity = _animation.value;
-        return GridView.builder(
-          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-          physics: const NeverScrollableScrollPhysics(),
-          shrinkWrap: true,
-          itemCount: widget.itemCount,
-          gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-            crossAxisCount: 2,
-            childAspectRatio: 0.68,
-            crossAxisSpacing: 12,
-            mainAxisSpacing: 12,
-          ),
-          itemBuilder: (context, index) {
-            return Container(
-              decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.circular(16),
-                border: Border.all(color: const Color(0xFFF1F5F9)),
+        return LayoutBuilder(
+          builder: (context, constraints) {
+            int crossAxisCount = 2;
+            double childAspectRatio = 0.58;
+
+            if (constraints.maxWidth > 1200) {
+              crossAxisCount = 5;
+              childAspectRatio = 0.65;
+            } else if (constraints.maxWidth > 900) {
+              crossAxisCount = 4;
+              childAspectRatio = 0.64;
+            } else if (constraints.maxWidth > 600) {
+              crossAxisCount = 3;
+              childAspectRatio = 0.62;
+            }
+
+            return GridView.builder(
+              padding: const EdgeInsets.fromLTRB(16, 8, 16, 24),
+              physics: const AlwaysScrollableScrollPhysics(),
+              itemCount: widget.itemCount,
+              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                crossAxisCount: crossAxisCount,
+                childAspectRatio: childAspectRatio,
+                crossAxisSpacing: 14,
+                mainAxisSpacing: 14,
               ),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Container(
-                    height: 140,
-                    decoration: BoxDecoration(
-                      color: Color.fromRGBO(226, 232, 240, opacity),
-                      borderRadius: const BorderRadius.vertical(top: Radius.circular(16)),
-                    ),
+              itemBuilder: (context, index) {
+                return Container(
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(16),
+                    border: Border.all(color: const Color(0xFFF1F5F9)),
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.black.withAlpha(8),
+                        blurRadius: 8,
+                        offset: const Offset(0, 3),
+                      ),
+                    ],
                   ),
-                  Padding(
-                    padding: const EdgeInsets.all(12),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Container(
-                          width: 50,
-                          height: 12,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Expanded(
+                        flex: 12,
+                        child: Container(
                           decoration: BoxDecoration(
                             color: Color.fromRGBO(226, 232, 240, opacity),
-                            borderRadius: BorderRadius.circular(4),
+                            borderRadius: const BorderRadius.vertical(top: Radius.circular(16)),
                           ),
                         ),
-                        const SizedBox(height: 8),
-                        Container(
-                          width: double.infinity,
-                          height: 14,
-                          decoration: BoxDecoration(
-                            color: Color.fromRGBO(226, 232, 240, opacity),
-                            borderRadius: BorderRadius.circular(4),
-                          ),
-                        ),
-                        const SizedBox(height: 6),
-                        Container(
-                          width: 80,
-                          height: 14,
-                          decoration: BoxDecoration(
-                            color: Color.fromRGBO(226, 232, 240, opacity),
-                            borderRadius: BorderRadius.circular(4),
-                          ),
-                        ),
-                        const SizedBox(height: 12),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Container(
-                              width: 60,
-                              height: 16,
-                              decoration: BoxDecoration(
-                                color: Color.fromRGBO(226, 232, 240, opacity),
-                                borderRadius: BorderRadius.circular(4),
+                      ),
+                      Expanded(
+                        flex: 11,
+                        child: Padding(
+                          padding: const EdgeInsets.fromLTRB(12, 10, 12, 10),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Container(
+                                    width: 50,
+                                    height: 11,
+                                    decoration: BoxDecoration(
+                                      color: Color.fromRGBO(226, 232, 240, opacity),
+                                      borderRadius: BorderRadius.circular(4),
+                                    ),
+                                  ),
+                                  const SizedBox(height: 8),
+                                  Container(
+                                    width: double.infinity,
+                                    height: 13,
+                                    decoration: BoxDecoration(
+                                      color: Color.fromRGBO(226, 232, 240, opacity),
+                                      borderRadius: BorderRadius.circular(4),
+                                    ),
+                                  ),
+                                  const SizedBox(height: 6),
+                                  Container(
+                                    width: 75,
+                                    height: 13,
+                                    decoration: BoxDecoration(
+                                      color: Color.fromRGBO(226, 232, 240, opacity),
+                                      borderRadius: BorderRadius.circular(4),
+                                    ),
+                                  ),
+                                ],
                               ),
-                            ),
-                            Container(
-                              width: 32,
-                              height: 16,
-                              decoration: BoxDecoration(
-                                color: Color.fromRGBO(226, 232, 240, opacity),
-                                borderRadius: BorderRadius.circular(4),
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Container(
+                                    width: 60,
+                                    height: 16,
+                                    decoration: BoxDecoration(
+                                      color: Color.fromRGBO(226, 232, 240, opacity),
+                                      borderRadius: BorderRadius.circular(4),
+                                    ),
+                                  ),
+                                  Container(
+                                    width: 32,
+                                    height: 14,
+                                    decoration: BoxDecoration(
+                                      color: Color.fromRGBO(226, 232, 240, opacity),
+                                      borderRadius: BorderRadius.circular(4),
+                                    ),
+                                  ),
+                                ],
                               ),
-                            ),
-                          ],
+                            ],
+                          ),
                         ),
-                      ],
-                    ),
+                      ),
+                    ],
                   ),
-                ],
-              ),
+                );
+              },
             );
           },
         );

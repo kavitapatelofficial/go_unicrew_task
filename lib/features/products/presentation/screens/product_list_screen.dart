@@ -173,10 +173,7 @@ class ProductListScreen extends ConsumerWidget {
           // Product Grid Content
           Expanded(
             child: productsAsync.when(
-              loading: () => const SingleChildScrollView(
-                physics: AlwaysScrollableScrollPhysics(),
-                child: LoadingShimmerGrid(itemCount: 6),
-              ),
+              loading: () => const LoadingShimmerGrid(itemCount: 6),
               error: (error, _) => RefreshIndicator(
                 color: AppTheme.primary,
                 onRefresh: () async {
@@ -227,10 +224,17 @@ class ProductListScreen extends ConsumerWidget {
                   child: LayoutBuilder(
                     builder: (context, constraints) {
                       int crossAxisCount = 2;
-                      if (constraints.maxWidth > 900) {
+                      double childAspectRatio = 0.58;
+
+                      if (constraints.maxWidth > 1200) {
+                        crossAxisCount = 5;
+                        childAspectRatio = 0.65;
+                      } else if (constraints.maxWidth > 900) {
                         crossAxisCount = 4;
+                        childAspectRatio = 0.64;
                       } else if (constraints.maxWidth > 600) {
                         crossAxisCount = 3;
+                        childAspectRatio = 0.62;
                       }
 
                       return GridView.builder(
@@ -239,7 +243,7 @@ class ProductListScreen extends ConsumerWidget {
                         itemCount: products.length,
                         gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                           crossAxisCount: crossAxisCount,
-                          childAspectRatio: 0.67,
+                          childAspectRatio: childAspectRatio,
                           crossAxisSpacing: 14,
                           mainAxisSpacing: 14,
                         ),

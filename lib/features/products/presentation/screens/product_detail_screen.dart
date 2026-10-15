@@ -184,59 +184,63 @@ class ProductDetailScreen extends ConsumerWidget {
                     ),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            const Text(
-                              'Price',
-                              style: TextStyle(
-                                fontSize: 12,
-                                color: AppTheme.textSecondaryLight,
-                                fontWeight: FontWeight.w500,
-                              ),
-                            ),
-                            const SizedBox(height: 2),
-                            Row(
-                              crossAxisAlignment: CrossAxisAlignment.baseline,
-                              textBaseline: TextBaseline.alphabetic,
-                              children: [
-                                Text(
-                                  product.formattedPrice,
-                                  style: const TextStyle(
-                                    fontSize: 26,
-                                    fontWeight: FontWeight.w900,
-                                    color: AppTheme.textPrimaryLight,
-                                  ),
+                        Expanded(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              const Text(
+                                'Price',
+                                style: TextStyle(
+                                  fontSize: 12,
+                                  color: AppTheme.textSecondaryLight,
+                                  fontWeight: FontWeight.w500,
                                 ),
-                                if (product.discountPercentage > 0) ...[
-                                  const SizedBox(width: 10),
+                              ),
+                              const SizedBox(height: 2),
+                              Wrap(
+                                crossAxisAlignment: WrapCrossAlignment.center,
+                                spacing: 8,
+                                runSpacing: 4,
+                                children: [
                                   Text(
-                                    product.formattedOriginalPrice,
+                                    product.formattedPrice,
                                     style: const TextStyle(
-                                      fontSize: 16,
-                                      color: AppTheme.textSecondaryLight,
-                                      decoration: TextDecoration.lineThrough,
+                                      fontSize: 24,
+                                      fontWeight: FontWeight.w900,
+                                      color: AppTheme.textPrimaryLight,
                                     ),
                                   ),
+                                  if (product.discountPercentage > 0)
+                                    Text(
+                                      product.formattedOriginalPrice,
+                                      style: const TextStyle(
+                                        fontSize: 15,
+                                        color: AppTheme.textSecondaryLight,
+                                        decoration: TextDecoration.lineThrough,
+                                      ),
+                                    ),
                                 ],
-                              ],
-                            ),
-                          ],
+                              ),
+                            ],
+                          ),
                         ),
-                        if (product.discountPercentage > 0)
+                        if (product.discountPercentage > 0) ...[
+                          const SizedBox(width: 8),
                           Container(
-                            padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+                            padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
                             decoration: BoxDecoration(
                               color: AppTheme.error.withAlpha(20),
-                              borderRadius: BorderRadius.circular(12),
+                              borderRadius: BorderRadius.circular(10),
                             ),
                             child: Column(
+                              mainAxisSize: MainAxisSize.min,
                               children: [
                                 Text(
                                   product.formattedDiscount,
                                   style: const TextStyle(
-                                    fontSize: 13,
+                                    fontSize: 12,
                                     fontWeight: FontWeight.w800,
                                     color: AppTheme.error,
                                   ),
@@ -244,7 +248,7 @@ class ProductDetailScreen extends ConsumerWidget {
                                 const Text(
                                   'SAVINGS',
                                   style: TextStyle(
-                                    fontSize: 9,
+                                    fontSize: 8.5,
                                     fontWeight: FontWeight.w700,
                                     color: AppTheme.error,
                                     letterSpacing: 0.5,
@@ -253,6 +257,7 @@ class ProductDetailScreen extends ConsumerWidget {
                               ],
                             ),
                           ),
+                        ],
                       ],
                     ),
                   ),
@@ -385,8 +390,11 @@ class ProductDetailScreen extends ConsumerWidget {
                       ),
                     );
                   },
-                  icon: const Icon(Icons.shopping_cart_outlined, size: 20),
-                  label: const Text('Add to Cart'),
+                  icon: const Icon(Icons.shopping_cart_outlined, size: 19),
+                  label: const FittedBox(
+                    fit: BoxFit.scaleDown,
+                    child: Text('Add to Cart'),
+                  ),
                   style: OutlinedButton.styleFrom(
                     foregroundColor: AppTheme.primary,
                     side: const BorderSide(color: AppTheme.primary, width: 1.5),
@@ -409,8 +417,11 @@ class ProductDetailScreen extends ConsumerWidget {
                       ),
                     );
                   },
-                  icon: const Icon(Icons.flash_on_rounded, size: 20),
-                  label: const Text('Buy Now'),
+                  icon: const Icon(Icons.flash_on_rounded, size: 19),
+                  label: const FittedBox(
+                    fit: BoxFit.scaleDown,
+                    child: Text('Buy Now'),
+                  ),
                   style: ElevatedButton.styleFrom(
                     backgroundColor: AppTheme.primary,
                     foregroundColor: Colors.white,
