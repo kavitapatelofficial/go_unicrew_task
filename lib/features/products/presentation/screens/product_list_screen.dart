@@ -117,8 +117,10 @@ class ProductListScreen extends ConsumerWidget {
           const SizedBox(width: 4),
         ],
       ),
-      body: Column(
-        children: [
+      body: SafeArea(
+        top: false,
+        child: Column(
+          children: [
           // Search Bar Section
           const Padding(
             padding: EdgeInsets.fromLTRB(16, 12, 16, 10),
@@ -259,8 +261,9 @@ class ProductListScreen extends ConsumerWidget {
           ),
         ],
       ),
-    );
-  }
+    ),
+  );
+}
 
   void _navigateToDetail(BuildContext context, ProductModel product) {
     context.push(AppRoutes.productDetailPath(product.id), extra: product);
