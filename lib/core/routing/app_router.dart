@@ -5,20 +5,14 @@ import '../../features/products/domain/entities/product.dart';
 import '../../features/products/presentation/providers/product_providers.dart';
 import '../../features/products/presentation/screens/product_detail_screen.dart';
 import '../../features/products/presentation/screens/product_list_screen.dart';
-import '../../features/splash/presentation/screens/splash_screen.dart';
 import '../widgets/error_state_widget.dart';
 import 'app_routes.dart';
 
 final appRouterProvider = Provider<GoRouter>((ref) {
   return GoRouter(
-    initialLocation: AppRoutes.splash,
+    initialLocation: AppRoutes.productList,
     debugLogDiagnostics: false,
     routes: [
-      GoRoute(
-        path: AppRoutes.splash,
-        name: 'splash',
-        builder: (context, state) => const SplashScreen(),
-      ),
       GoRoute(
         path: AppRoutes.productList,
         name: 'productList',

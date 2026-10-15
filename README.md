@@ -14,10 +14,9 @@ A Flutter e-commerce product catalog application built for the Go UniCrew techni
 
 ## Features
 
-- **Branded Splash Screen**:
-  - Pure white **UniStore** brand emblem badge, bold brand title, and letter-spaced subtitle on vibrant `#4F46E5` background.
-  - Native launch configuration for Android (including Android 12+ Splash API with `values-v31` styles and bounded fallback drawables) and iOS storyboard.
-  - In-engine Flutter `SplashScreen` fallback with subtle entry animation and instant frame-synchronized native splash dismissal for zero flicker across all OEM devices (e.g. Vivo, Oppo, Xiaomi, Samsung).
+- **Native Splash Screen**:
+  - Custom branded native splash screen configured for Android (including Android 12+ Splash API with `values-v31` styles and centered bounded drawables) and iOS storyboard.
+  - Features the pure white **UniStore** brand logo centered on a vibrant `#4F46E5` background, replacing the default white startup screen.
 - **Product Listing**: 2-column responsive grid showing product thumbnail, title, rating, current price, original price, and discount percentage badge.
 - **Search Functionality**: Search with 350ms debounce against DummyJSON's search API, including clear button and empty-state screen with quick reset.
 - **Category Filter**: Dynamically populated horizontal filter chips from the categories endpoint.
@@ -69,11 +68,6 @@ lib/
 │       └── rating_badge.dart           # Rating pill badge
 │
 ├── features/
-│   ├── splash/
-│   │   └── presentation/
-│   │       └── screens/
-│   │           └── splash_screen.dart  # Branded UniStore splash screen
-│   │
 │   └── products/
 │       ├── data/
 │       │   ├── models/                 # Data transfer objects with .toDomain()
@@ -109,8 +103,7 @@ The application utilizes `flutter_riverpod` (v3.x `Notifier` pattern):
 ## Routing (GoRouter)
 
 - Declarative routing using `go_router`:
-  - `/` &rarr; `SplashScreen` (navigates automatically to `/products` after 1.8s)
-  - `/products` &rarr; `ProductListScreen`
+  - `/` &rarr; `ProductListScreen`
   - `/products/:id` &rarr; `ProductDetailScreen`
 - Supports passing the `Product` entity via `extra` for immediate transitions when tapping a card.
 - Supports fallback fetching via `productDetailProvider(id)` when navigating directly via URL or deep link.
