@@ -1,10 +1,15 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../../core/network/api_client.dart';
-import '../../data/models/product_model.dart';
-import '../../data/repositories/product_repository.dart';
+import '../../data/repositories/product_repository_impl.dart';
 import '../../data/services/product_api_service.dart';
+import '../../domain/models/product.dart';
+import '../../domain/repositories/product_repository.dart';
+import '../../domain/use_cases/get_categories_use_case.dart';
+import '../../domain/use_cases/get_product_detail_use_case.dart';
+import '../../domain/use_cases/get_products_use_case.dart';
+import '../../domain/use_cases/search_products_use_case.dart';
 
-// Dependency Injection Providers
+// Data Layer Dependency Injection
 final apiClientProvider = Provider<ApiClient>((ref) {
   return ApiClient();
 });
@@ -16,10 +21,31 @@ final productApiServiceProvider = Provider<ProductApiService>((ref) {
 
 final productRepositoryProvider = Provider<ProductRepository>((ref) {
   final apiService = ref.watch(productApiServiceProvider);
-  return ProductRepository(apiService: apiService);
+  return ProductRepositoryImpl(apiService: apiService);
 });
 
-// Search Query Notifier & Provider
+// Domain Layer Use Case Providers
+final getProductsUseCaseProvider = Provider<GetProductsUseCase>((ref) {
+  final repository = ref.watch(productRepositoryProvider);
+  return GetProductsUseCase(repository);
+});
+
+final searchProductsUseCaseProvider = Provider<SearchProductsUseCase>((ref) {
+  final repository = ref.watch(productRepositoryProvider);
+  return SearchProductsUseCase(repository);
+});
+
+final getProductDetailUseCaseProvider = Provider<GetProductDetailUseCase>((ref) {
+  final repository = ref.watch(productRepositoryProvider);
+  return GetProductDetailUseCase(repository);
+});
+
+final getCategoriesUseCaseProvider = Provider<GetCategoriesUseCase>((ref) {
+  final repository = ref.watch(productRepositoryProvider);
+  return GetCategoriesUseCase(repository);
+});
+
+// Presentation Layer State Notifiers & Providers
 class SearchQueryNotifier extends Notifier<String> {
   @override
   String build() => '';
@@ -32,7 +58,6 @@ final searchQueryProvider = NotifierProvider<SearchQueryNotifier, String>(() {
   return SearchQueryNotifier();
 });
 
-// Category Filter Notifier & Provider (null means "All")
 class SelectedCategoryNotifier extends Notifier<String?> {
   @override
   String? build() => null;
@@ -44,39 +69,29 @@ final selectedCategoryProvider = NotifierProvider<SelectedCategoryNotifier, Stri
   return SelectedCategoryNotifier();
 });
 
-// Categories List Provider
 final categoriesProvider = FutureProvider<List<String>>((ref) async {
-  final repository = ref.watch(productRepositoryProvider);
-  return repository.getCategories();
+  final getCategories = ref.watch(getCategoriesUseCaseProvider);
+  return getCategories();
 });
 
-// Main Products Provider
-final productsListProvider = FutureProvider<List<ProductModel>>((ref) async {
-  final repository = ref.watch(productRepositoryProvider);
+final productsListProvider = FutureProvider<List<Product>>((ref) async {
   final searchQuery = ref.watch(searchQueryProvider).trim();
   final selectedCategory = ref.watch(selectedCategoryProvider);
 
   if (searchQuery.isNotEmpty) {
-    final response = await repository.searchProducts(searchQuery, limit: 50);
-    return response.products;
+    final searchProducts = ref.watch(searchProductsUseCaseProvider);
+    return searchProducts(searchQuery, limit: 50);
   }
 
-  if (selectedCategory != null && selectedCategory.isNotEmpty) {
-    final response = await repository.getProductsByCategory(selectedCategory);
-    return response.products;
-  }
-
-  final response = await repository.getProducts(limit: 50);
-  return response.products;
+  final getProducts = ref.watch(getProductsUseCaseProvider);
+  return getProducts(limit: 50, category: selectedCategory);
 });
 
-// Single Product Detail Provider family
-final productDetailProvider = FutureProvider.family<ProductModel, int>((ref, productId) async {
-  final repository = ref.watch(productRepositoryProvider);
-  return repository.getProductDetails(productId);
+final productDetailProvider = FutureProvider.family<Product, int>((ref, productId) async {
+  final getProductDetail = ref.watch(getProductDetailUseCaseProvider);
+  return getProductDetail(productId);
 });
 
-// Favorites Notifier
 class FavoritesNotifier extends Notifier<Set<int>> {
   @override
   Set<int> build() => {};

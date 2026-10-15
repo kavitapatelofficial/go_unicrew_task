@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import '../../features/products/data/models/product_model.dart';
+import '../../features/products/domain/models/product.dart';
 import '../../features/products/presentation/providers/product_providers.dart';
 import '../../features/products/presentation/screens/product_detail_screen.dart';
 import '../../features/products/presentation/screens/product_list_screen.dart';
@@ -23,7 +23,7 @@ final appRouterProvider = Provider<GoRouter>((ref) {
         name: 'productDetail',
         builder: (context, state) {
           final extra = state.extra;
-          if (extra is ProductModel) {
+          if (extra is Product) {
             return ProductDetailScreen(product: extra);
           }
 

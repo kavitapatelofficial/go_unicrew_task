@@ -1,11 +1,13 @@
-class ReviewModel {
+import '../../domain/models/review.dart';
+
+class ReviewDto {
   final double rating;
   final String comment;
   final String date;
   final String reviewerName;
   final String reviewerEmail;
 
-  const ReviewModel({
+  const ReviewDto({
     required this.rating,
     required this.comment,
     required this.date,
@@ -13,8 +15,8 @@ class ReviewModel {
     required this.reviewerEmail,
   });
 
-  factory ReviewModel.fromJson(Map<String, dynamic> json) {
-    return ReviewModel(
+  factory ReviewDto.fromJson(Map<String, dynamic> json) {
+    return ReviewDto(
       rating: (json['rating'] as num?)?.toDouble() ?? 0.0,
       comment: json['comment'] as String? ?? '',
       date: json['date'] as String? ?? '',
@@ -31,5 +33,15 @@ class ReviewModel {
       'reviewerName': reviewerName,
       'reviewerEmail': reviewerEmail,
     };
+  }
+
+  Review toDomain() {
+    return Review(
+      rating: rating,
+      comment: comment,
+      date: date,
+      reviewerName: reviewerName,
+      reviewerEmail: reviewerEmail,
+    );
   }
 }

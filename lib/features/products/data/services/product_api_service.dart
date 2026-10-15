@@ -1,38 +1,38 @@
 import '../../../../core/constants/api_constants.dart';
 import '../../../../core/network/api_client.dart';
-import '../models/product_model.dart';
-import '../models/products_response.dart';
+import '../models/product_dto.dart';
+import '../models/products_response_dto.dart';
 
 class ProductApiService {
   final ApiClient _apiClient;
 
   ProductApiService({ApiClient? apiClient}) : _apiClient = apiClient ?? ApiClient();
 
-  /// Fetches a paginated list of products
-  Future<ProductsResponse> getProducts({int limit = ApiConstants.defaultLimit, int skip = 0}) async {
+  /// Fetches a paginated list of products from DummyJSON
+  Future<ProductsResponseDto> getProducts({int limit = ApiConstants.defaultLimit, int skip = 0}) async {
     final response = await _apiClient.get(
       ApiConstants.productsEndpoint,
       queryParameters: {'limit': limit, 'skip': skip},
     );
-    return ProductsResponse.fromJson(response as Map<String, dynamic>);
+    return ProductsResponseDto.fromJson(response as Map<String, dynamic>);
   }
 
-  /// Searches products with the given query
-  Future<ProductsResponse> searchProducts(String query, {int limit = ApiConstants.defaultLimit, int skip = 0}) async {
+  /// Searches products with the given query from DummyJSON
+  Future<ProductsResponseDto> searchProducts(String query, {int limit = ApiConstants.defaultLimit, int skip = 0}) async {
     final response = await _apiClient.get(
       ApiConstants.searchEndpoint,
       queryParameters: {'q': query, 'limit': limit, 'skip': skip},
     );
-    return ProductsResponse.fromJson(response as Map<String, dynamic>);
+    return ProductsResponseDto.fromJson(response as Map<String, dynamic>);
   }
 
   /// Fetches a single product by ID
-  Future<ProductModel> getProductById(int id) async {
+  Future<ProductDto> getProductById(int id) async {
     final response = await _apiClient.get('${ApiConstants.productsEndpoint}/$id');
-    return ProductModel.fromJson(response as Map<String, dynamic>);
+    return ProductDto.fromJson(response as Map<String, dynamic>);
   }
 
-  /// Fetches product categories
+  /// Fetches product categories list
   Future<List<String>> getCategories() async {
     final response = await _apiClient.get(ApiConstants.categoriesEndpoint);
     if (response is List) {
@@ -49,8 +49,8 @@ class ProductApiService {
   }
 
   /// Fetches products filtered by category
-  Future<ProductsResponse> getProductsByCategory(String category) async {
+  Future<ProductsResponseDto> getProductsByCategory(String category) async {
     final response = await _apiClient.get('${ApiConstants.categoryProductsEndpoint}/$category');
-    return ProductsResponse.fromJson(response as Map<String, dynamic>);
+    return ProductsResponseDto.fromJson(response as Map<String, dynamic>);
   }
 }

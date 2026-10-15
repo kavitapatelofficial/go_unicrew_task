@@ -37,7 +37,15 @@ A modern, responsive, and robust Flutter e-commerce product catalog application 
 
 ## 🏗️ Architecture & Project Structure
 
-The project strictly follows **Feature-First Architecture** (Feature-driven / Clean Architecture by feature):
+The project strictly follows **Clean Architecture** (Presentation, Domain, Data) combined with **Feature-First** structure:
+
+### 🧩 Architectural Layers
+
+| Layer | What does it do? | Components in Codebase |
+| :--- | :--- | :--- |
+| **Presentation** | Displays UI and manages UI state | Screens, widgets, Riverpod state notifiers & providers |
+| **Domain** | Contains business logic and use cases | Pure domain entities (`Product`, `Review`), repository contracts (`ProductRepository`), and use cases (`GetProductsUseCase`, `SearchProductsUseCase`, etc.) |
+| **Data** | Fetches and saves data using APIs, databases, etc. | DTOs with mapping (`ProductDto`, `ReviewDto`), remote data sources (`ProductApiService`), repository implementation (`ProductRepositoryImpl`) |
 
 ```text
 lib/
@@ -60,29 +68,42 @@ lib/
 │       └── rating_badge.dart           # Star rating & review count pill
 │
 ├── features/
-│   └── products/                       # Products Feature (Catalog, Detail, Search, Filtering)
-│       ├── data/
-│       │   ├── models/
-│       │   │   ├── product_model.dart      # Product domain/API model with helpers
-│       │   │   ├── products_response.dart  # Paginated response wrapper
-│       │   │   └── review_model.dart       # Customer review data model
-│       │   ├── repositories/
-│       │   │   └── product_repository.dart # Single source of truth for products data
-│       │   └── services/
-│       │       └── product_api_service.dart# Raw HTTP requests to DummyJSON endpoints
-│       └── presentation/
-│           ├── providers/
-│           │   └── product_providers.dart  # Riverpod providers (products, search, categories, favorites)
-│           ├── screens/
-│           │   ├── product_list_screen.dart    # Main screen with search, categories & grid
-│           │   └── product_detail_screen.dart  # Detail screen with gallery, specs & reviews
-│           └── widgets/
-│               ├── category_filter_bar.dart    # Category chip bar
-│               ├── image_gallery_slider.dart   # Swipeable image carousel with dots
-│               ├── product_card.dart           # Product grid item card
-│               └── search_bar_widget.dart      # Debounced search bar with clear button
+│   └── products/                       # Products Feature Module
+│       ├── data/                       # 1. DATA LAYER (Fetches & saves data)
+│       │   ├── models/                 # DTOs with JSON serialization & toDomain()
+│       │   │   ├── product_dto.dart
+│       │   │   ├── products_response_dto.dart
+│       │   │   └── review_dto.dart
+│       │   ├── repositories/           # Repository implementations
+│       │   │   └── product_repository_impl.dart
+│       │   └── services/               # Remote API data sources
+│       │       └── product_api_service.dart
+│       │
+│       ├── domain/                     # 2. DOMAIN LAYER (Business logic & use cases)
+│       │   ├── models/                 # Clean, framework-independent domain entities
+│       │   │   ├── product.dart
+│       │   │   └── review.dart
+│       │   ├── repositories/           # Abstract repository contracts
+│       │   │   └── product_repository.dart
+│       │   └── use_cases/              # Single-responsibility business use cases
+│       │       ├── get_categories_use_case.dart
+│       │       ├── get_product_detail_use_case.dart
+│       │       ├── get_products_use_case.dart
+│       │       └── search_products_use_case.dart
+│       │
+│       └── presentation/               # 3. PRESENTATION LAYER (UI & UI state)
+│           ├── providers/              # Riverpod notifiers & state providers
+│           │   └── product_providers.dart
+│           ├── screens/                # UI screens
+│           │   ├── product_list_screen.dart
+│           │   └── product_detail_screen.dart
+│           └── widgets/                # Feature-specific reusable UI widgets
+│               ├── category_filter_bar.dart
+│               ├── image_gallery_slider.dart
+│               ├── product_card.dart
+│               └── search_bar_widget.dart
 │
-└── main.dart                           # App entry point with ProviderScope & MaterialApp
+└── main.dart                           # App entry point with ProviderScope & MaterialApp.router
 ```
 
 ---

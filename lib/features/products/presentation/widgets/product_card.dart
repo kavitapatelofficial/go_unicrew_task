@@ -3,11 +3,11 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../../core/theme/app_theme.dart';
 import '../../../../core/widgets/custom_network_image.dart';
 import '../../../../core/widgets/rating_badge.dart';
-import '../../data/models/product_model.dart';
+import '../../domain/models/product.dart';
 import '../providers/product_providers.dart';
 
 class ProductCard extends ConsumerWidget {
-  final ProductModel product;
+  final Product product;
   final VoidCallback onTap;
 
   const ProductCard({

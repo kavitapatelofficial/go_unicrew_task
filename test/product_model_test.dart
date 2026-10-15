@@ -1,11 +1,11 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:go_unicrew_task/features/products/data/models/product_model.dart';
-import 'package:go_unicrew_task/features/products/data/models/products_response.dart';
-import 'package:go_unicrew_task/features/products/data/models/review_model.dart';
+import 'package:go_unicrew_task/features/products/data/models/product_dto.dart';
+import 'package:go_unicrew_task/features/products/data/models/products_response_dto.dart';
+import 'package:go_unicrew_task/features/products/data/models/review_dto.dart';
 
 void main() {
-  group('ProductModel & ReviewModel Unit Tests', () {
-    test('ReviewModel parses json correctly', () {
+  group('ProductDto & Domain Model Unit Tests', () {
+    test('ReviewDto parses json correctly and converts to Domain entity', () {
       final json = {
         'rating': 4.5,
         'comment': 'Super product!',
@@ -14,14 +14,18 @@ void main() {
         'reviewerEmail': 'alex@example.com',
       };
 
-      final review = ReviewModel.fromJson(json);
-      expect(review.rating, 4.5);
-      expect(review.comment, 'Super product!');
-      expect(review.reviewerName, 'Alex');
-      expect(review.reviewerEmail, 'alex@example.com');
+      final reviewDto = ReviewDto.fromJson(json);
+      expect(reviewDto.rating, 4.5);
+      expect(reviewDto.comment, 'Super product!');
+      expect(reviewDto.reviewerName, 'Alex');
+
+      final domainReview = reviewDto.toDomain();
+      expect(domainReview.rating, 4.5);
+      expect(domainReview.comment, 'Super product!');
+      expect(domainReview.reviewerName, 'Alex');
     });
 
-    test('ProductModel parses json and calculates pricing and discount', () {
+    test('ProductDto parses json, maps to domain Product and calculates pricing', () {
       final json = {
         'id': 42,
         'title': 'Smartphone X',
@@ -47,7 +51,9 @@ void main() {
         ],
       };
 
-      final product = ProductModel.fromJson(json);
+      final productDto = ProductDto.fromJson(json);
+      final product = productDto.toDomain();
+
       expect(product.id, 42);
       expect(product.title, 'Smartphone X');
       expect(product.formattedPrice, '\$800.00');
@@ -58,7 +64,7 @@ void main() {
       expect(product.reviews.length, 1);
     });
 
-    test('ProductsResponse parses list response', () {
+    test('ProductsResponseDto parses list response and converts to domain list', () {
       final json = {
         'products': [
           {
@@ -73,10 +79,11 @@ void main() {
         'limit': 10,
       };
 
-      final response = ProductsResponse.fromJson(json);
-      expect(response.total, 1);
-      expect(response.products.length, 1);
-      expect(response.products.first.title, 'Item 1');
+      final responseDto = ProductsResponseDto.fromJson(json);
+      expect(responseDto.total, 1);
+      final domainProducts = responseDto.toDomain();
+      expect(domainProducts.length, 1);
+      expect(domainProducts.first.title, 'Item 1');
     });
   });
 }

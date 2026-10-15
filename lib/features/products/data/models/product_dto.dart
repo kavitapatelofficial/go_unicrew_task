@@ -1,6 +1,7 @@
-import 'review_model.dart';
+import '../../domain/models/product.dart';
+import 'review_dto.dart';
 
-class ProductModel {
+class ProductDto {
   final int id;
   final String title;
   final String description;
@@ -15,13 +16,13 @@ class ProductModel {
   final String? warrantyInformation;
   final String? shippingInformation;
   final String? availabilityStatus;
-  final List<ReviewModel> reviews;
+  final List<ReviewDto> reviews;
   final String? returnPolicy;
   final int? minimumOrderQuantity;
   final List<String> images;
   final String thumbnail;
 
-  const ProductModel({
+  const ProductDto({
     required this.id,
     required this.title,
     required this.description,
@@ -43,19 +44,8 @@ class ProductModel {
     required this.thumbnail,
   });
 
-  double get originalPrice {
-    if (discountPercentage <= 0) return price;
-    return price / (1 - (discountPercentage / 100));
-  }
-
-  String get formattedPrice => '\$${price.toStringAsFixed(2)}';
-
-  String get formattedOriginalPrice => '\$${originalPrice.toStringAsFixed(2)}';
-
-  String get formattedDiscount => '${discountPercentage.round()}% OFF';
-
-  factory ProductModel.fromJson(Map<String, dynamic> json) {
-    return ProductModel(
+  factory ProductDto.fromJson(Map<String, dynamic> json) {
+    return ProductDto(
       id: json['id'] as int? ?? 0,
       title: json['title'] as String? ?? 'Untitled Product',
       description: json['description'] as String? ?? '',
@@ -71,7 +61,7 @@ class ProductModel {
       shippingInformation: json['shippingInformation'] as String?,
       availabilityStatus: json['availabilityStatus'] as String?,
       reviews: (json['reviews'] as List<dynamic>?)
-              ?.map((e) => ReviewModel.fromJson(e as Map<String, dynamic>))
+              ?.map((e) => ReviewDto.fromJson(e as Map<String, dynamic>))
               .toList() ??
           [],
       returnPolicy: json['returnPolicy'] as String?,
@@ -103,5 +93,29 @@ class ProductModel {
       'images': images,
       'thumbnail': thumbnail,
     };
+  }
+
+  Product toDomain() {
+    return Product(
+      id: id,
+      title: title,
+      description: description,
+      category: category,
+      price: price,
+      discountPercentage: discountPercentage,
+      rating: rating,
+      stock: stock,
+      tags: tags,
+      brand: brand,
+      sku: sku,
+      warrantyInformation: warrantyInformation,
+      shippingInformation: shippingInformation,
+      availabilityStatus: availabilityStatus,
+      reviews: reviews.map((r) => r.toDomain()).toList(),
+      returnPolicy: returnPolicy,
+      minimumOrderQuantity: minimumOrderQuantity,
+      images: images,
+      thumbnail: thumbnail,
+    );
   }
 }
