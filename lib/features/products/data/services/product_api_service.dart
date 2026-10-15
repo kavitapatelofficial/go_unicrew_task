@@ -8,7 +8,6 @@ class ProductApiService {
 
   ProductApiService({ApiClient? apiClient}) : _apiClient = apiClient ?? ApiClient();
 
-  /// Fetches a paginated list of products from DummyJSON
   Future<ProductsResponseDto> getProducts({int limit = ApiConstants.defaultLimit, int skip = 0}) async {
     final response = await _apiClient.get(
       ApiConstants.productsEndpoint,
@@ -17,7 +16,6 @@ class ProductApiService {
     return ProductsResponseDto.fromJson(response as Map<String, dynamic>);
   }
 
-  /// Searches products with the given query from DummyJSON
   Future<ProductsResponseDto> searchProducts(String query, {int limit = ApiConstants.defaultLimit, int skip = 0}) async {
     final response = await _apiClient.get(
       ApiConstants.searchEndpoint,
@@ -26,13 +24,11 @@ class ProductApiService {
     return ProductsResponseDto.fromJson(response as Map<String, dynamic>);
   }
 
-  /// Fetches a single product by ID
   Future<ProductDto> getProductById(int id) async {
     final response = await _apiClient.get('${ApiConstants.productsEndpoint}/$id');
     return ProductDto.fromJson(response as Map<String, dynamic>);
   }
 
-  /// Fetches product categories list
   Future<List<String>> getCategories() async {
     final response = await _apiClient.get(ApiConstants.categoriesEndpoint);
     if (response is List) {
@@ -48,7 +44,6 @@ class ProductApiService {
     return [];
   }
 
-  /// Fetches products filtered by category
   Future<ProductsResponseDto> getProductsByCategory(String category) async {
     final response = await _apiClient.get('${ApiConstants.categoryProductsEndpoint}/$category');
     return ProductsResponseDto.fromJson(response as Map<String, dynamic>);

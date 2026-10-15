@@ -9,7 +9,6 @@ import '../../domain/use_cases/get_product_detail_use_case.dart';
 import '../../domain/use_cases/get_products_use_case.dart';
 import '../../domain/use_cases/search_products_use_case.dart';
 
-// Data Layer Dependency Injection
 final apiClientProvider = Provider<ApiClient>((ref) {
   return ApiClient();
 });
@@ -24,7 +23,6 @@ final productRepositoryProvider = Provider<ProductRepository>((ref) {
   return ProductRepositoryImpl(apiService: apiService);
 });
 
-// Domain Layer Use Case Providers
 final getProductsUseCaseProvider = Provider<GetProductsUseCase>((ref) {
   final repository = ref.watch(productRepositoryProvider);
   return GetProductsUseCase(repository);
@@ -45,7 +43,6 @@ final getCategoriesUseCaseProvider = Provider<GetCategoriesUseCase>((ref) {
   return GetCategoriesUseCase(repository);
 });
 
-// Presentation Layer State Notifiers & Providers
 class SearchQueryNotifier extends Notifier<String> {
   @override
   String build() => '';

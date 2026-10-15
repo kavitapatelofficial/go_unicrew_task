@@ -1,204 +1,159 @@
-# 🛍️ UniStore - Flutter Product Catalog App
+# UniStore - Flutter Product Catalog
 
-A modern, responsive, and robust Flutter e-commerce product catalog application built using **Flutter**, **Riverpod 3.x**, and the **DummyJSON Products API**.
+A Flutter e-commerce product catalog application built for the Go UniCrew technical evaluation. The app fetches products from the DummyJSON API and implements clean architecture, reactive state management with Riverpod, and declarative routing with GoRouter.
 
 ---
 
-## 📱 Screenshots
+## Screenshots
 
-| Product Listing & Categories | Product Detail & Reviews | Real-time Search & Filter |
+| Product Listing & Categories | Product Detail & Reviews | Search & Filter |
 | :---: | :---: | :---: |
 | <img src="screenshots/product_list_screen.jpg" width="260" alt="Product Listing"/> | <img src="screenshots/product_detail_screen.jpg" width="260" alt="Product Detail"/> | <img src="screenshots/search_and_filter.jpg" width="260" alt="Search and Filter"/> |
 
 ---
 
-## 🚀 Key Features
+## Features
 
-- **🌐 DummyJSON API Integration**: Fetches real-time products, categories, and search results using `http` and clean API abstraction layers.
-- **🖼️ High-Quality Product Display**: Displays product images with aspect ratio preservation, loading placeholders, error fallbacks, title, brand/category, star rating, current price, and struck-through original price with calculated discount percentage badges.
-- **🔍 Real-Time Search**: Debounced search input (350ms) querying `https://dummyjson.com/products/search?q={query}` with instantaneous clear button (`X`).
-- **🏷️ Dynamic Category Filtering**: Horizontal chip filter bar populated dynamically from DummyJSON categories endpoint.
-- **🔄 Pull-to-Refresh**: Native `RefreshIndicator` seamlessly wired to Riverpod's asynchronous provider invalidation/refresh.
-- **⏳ Skeleton Shimmer Loading**: Elegant animated pulsing shimmer skeleton cards during asynchronous data fetching.
-- **⚠️ Comprehensive Error & Offline Handling**: Gracefully handles network timeouts, socket exceptions (no internet), and server errors with a user-friendly "Try Again" retry action.
-- **🔍 Empty Results State**: Informative fallback UI when search yields no products, with a quick "Clear Search" button.
-- **📄 Full Product Detail Screen**:
-  - Hero image animation from card to detail view.
-  - Multi-image swipeable carousel with indicator dots.
-  - Stock availability badges (`In Stock` / `Low Stock` with item counts).
-  - Price breakdown card with calculated savings.
-  - Full product description.
-  - Product specifications (SKU, Warranty, Shipping, Return Policy, Minimum Order Quantity).
-  - Customer reviews section with ratings, user names, and comments.
-  - Sticky bottom action bar with "Add to Cart" and "Buy Now" buttons.
-- **❤️ Favorites Support**: In-memory favorite toggling per product with reactive app bar counter.
+- **Product Listing**: 2-column responsive grid showing product thumbnail, title, rating, current price, original price, and discount percentage badge.
+- **Search Functionality**: Search with 350ms debounce against DummyJSON's search API, including clear button and empty-state screen with quick reset.
+- **Category Filter**: Dynamically populated horizontal filter chips from the categories endpoint.
+- **Pull-to-Refresh**: Native `RefreshIndicator` integrated with Riverpod provider invalidation.
+- **Shimmer Loading & Error Handling**: Skeleton shimmer cards during fetch operations, along with retryable error screens for offline/timeout scenarios.
+- **Product Details Screen**:
+  - Hero image animation from listing card.
+  - Multi-image swipeable gallery with pagination dots.
+  - Stock badge (`In Stock` / `Low Stock` with quantity).
+  - Specifications breakdown (SKU, Warranty, Shipping, Return Policy, Minimum Order Quantity).
+  - Customer reviews list with reviewer name, star rating, and feedback comment.
+  - Sticky bottom action bar with `SafeArea` padding.
+- **Favorites**: In-memory favorite toggle per product with app bar badge counter.
 
 ---
 
-## 🏗️ Architecture & Project Structure
+## Architecture & Project Structure
 
-The project strictly follows **Clean Architecture** (Presentation, Domain, Data) combined with **Feature-First** structure:
+The project uses a **Feature-First** structure with strict 3-layer separation (**Presentation**, **Domain**, **Data**):
 
-### 🧩 Architectural Layers
+### Layers
 
-| Layer | What does it do? | Components in Codebase |
+| Layer | Responsibility | Components |
 | :--- | :--- | :--- |
-| **Presentation** | Displays UI and manages UI state | Screens, widgets, Riverpod state notifiers & providers |
-| **Domain** | Contains business logic and use cases | Pure domain entities (`Product`, `Review`), repository contracts (`ProductRepository`), and use cases (`GetProductsUseCase`, `SearchProductsUseCase`, etc.) |
-| **Data** | Fetches and saves data using APIs, databases, etc. | DTOs with mapping (`ProductDto`, `ReviewDto`), remote data sources (`ProductApiService`), repository implementation (`ProductRepositoryImpl`) |
+| **Presentation** | Displays UI and manages UI state | Screens, widgets, Riverpod Notifiers & FutureProviders |
+| **Domain** | Pure business logic and use cases | Models (`Product`, `Review`), repository interface (`ProductRepository`), and use cases (`GetProductsUseCase`, `SearchProductsUseCase`, `GetProductDetailUseCase`, `GetCategoriesUseCase`) |
+| **Data** | Fetches and deserializes remote data | DTO models with mapping (`ProductDto`, `ReviewDto`), API service (`ProductApiService`), repository implementation (`ProductRepositoryImpl`) |
+
+### Folder Structure
 
 ```text
 lib/
-├── core/                               # Core shared foundation
+├── core/
 │   ├── constants/
-│   │   └── api_constants.dart          # Base URLs, API endpoints, timeouts
+│   │   └── api_constants.dart          # Base URL, endpoints, and timeouts
 │   ├── network/
-│   │   ├── api_client.dart             # HTTP client wrapper with error interceptors
-│   │   └── api_exception.dart          # Custom typed network & API exceptions
+│   │   ├── api_client.dart             # HTTP client wrapper with exception mapping
+│   │   └── api_exception.dart          # Custom exception classes
 │   ├── routing/
-│   │   ├── app_router.dart             # GoRouter instance & deep linking configuration
-│   │   └── app_routes.dart             # Route path definitions & helpers
+│   │   ├── app_router.dart             # GoRouter setup with deep-link handling
+│   │   └── app_routes.dart             # Route path definitions
 │   ├── theme/
-│   │   └── app_theme.dart              # Custom design system, typography & colors
-│   └── widgets/                        # Shared reusable UI widgets across all features
-│       ├── custom_network_image.dart   # Image loader with progress & fallback
-│       ├── empty_state_widget.dart     # Friendly empty search/filter view
-│       ├── error_state_widget.dart     # Retryable network error view
-│       ├── loading_shimmer.dart        # Pulsing skeleton loading grid
-│       └── rating_badge.dart           # Star rating & review count pill
+│   │   └── app_theme.dart              # Colors, typography, and Material 3 theme
+│   └── widgets/
+│       ├── custom_network_image.dart   # Image widget with placeholder and error fallback
+│       ├── empty_state_widget.dart     # Empty search/filter illustration view
+│       ├── error_state_widget.dart     # Error message with retry button
+│       ├── loading_shimmer.dart        # Shimmer skeleton loader
+│       └── rating_badge.dart           # Rating pill badge
 │
 ├── features/
-│   └── products/                       # Products Feature Module
-│       ├── data/                       # 1. DATA LAYER (Fetches & saves data)
-│       │   ├── models/                 # DTOs with JSON serialization & toDomain()
-│       │   │   ├── product_dto.dart
-│       │   │   ├── products_response_dto.dart
-│       │   │   └── review_dto.dart
-│       │   ├── repositories/           # Repository implementations
-│       │   │   └── product_repository_impl.dart
-│       │   └── services/               # Remote API data sources
-│       │       └── product_api_service.dart
-│       │
-│       ├── domain/                     # 2. DOMAIN LAYER (Business logic & use cases)
-│       │   ├── models/                 # Clean, framework-independent domain entities
-│       │   │   ├── product.dart
-│       │   │   └── review.dart
-│       │   ├── repositories/           # Abstract repository contracts
-│       │   │   └── product_repository.dart
-│       │   └── use_cases/              # Single-responsibility business use cases
-│       │       ├── get_categories_use_case.dart
-│       │       ├── get_product_detail_use_case.dart
-│       │       ├── get_products_use_case.dart
-│       │       └── search_products_use_case.dart
-│       │
-│       └── presentation/               # 3. PRESENTATION LAYER (UI & UI state)
-│           ├── providers/              # Riverpod notifiers & state providers
-│           │   └── product_providers.dart
-│           ├── screens/                # UI screens
-│           │   ├── product_list_screen.dart
-│           │   └── product_detail_screen.dart
-│           └── widgets/                # Feature-specific reusable UI widgets
-│               ├── category_filter_bar.dart
-│               ├── image_gallery_slider.dart
-│               ├── product_card.dart
-│               └── search_bar_widget.dart
+│   └── products/
+│       ├── data/
+│       │   ├── models/                 # Data transfer objects with .toDomain()
+│       │   ├── repositories/           # ProductRepositoryImpl
+│       │   └── services/               # ProductApiService (http calls)
+│       ├── domain/
+│       │   ├── models/                 # Pure domain entities (Product, Review)
+│       │   ├── repositories/           # ProductRepository interface
+│       │   └── use_cases/              # Single-purpose use cases
+│       └── presentation/
+│           ├── providers/              # Riverpod state providers and notifiers
+│           ├── screens/                # ProductListScreen, ProductDetailScreen
+│           └── widgets/                # ProductCard, SearchBarWidget, CategoryFilterBar, ImageGallerySlider
 │
-└── main.dart                           # App entry point with ProviderScope & MaterialApp.router
+└── main.dart                           # ProviderScope and MaterialApp.router setup
 ```
 
 ---
 
-## ⚡ State Management (Riverpod)
+## State Management (Riverpod)
 
-The application uses `flutter_riverpod` (v3.x / modern `Notifier` pattern):
+The application utilizes `flutter_riverpod` (v3.x `Notifier` pattern):
 
-1. **`productRepositoryProvider`**: Injects `ProductRepository` backed by `ProductApiService` and `ApiClient`.
-2. **`searchQueryProvider`**: A `NotifierProvider<SearchQueryNotifier, String>` holding the active search query.
-3. **`selectedCategoryProvider`**: A `NotifierProvider<SelectedCategoryNotifier, String?>` managing active category filters.
-4. **`productsListProvider`**: A `FutureProvider<List<ProductModel>>` that automatically refetches whenever the search query or category filter changes, and smoothly invalidates on pull-to-refresh (`ref.refresh(productsListProvider.future)`).
-5. **`categoriesProvider`**: A `FutureProvider<List<String>>` fetching available categories from the API.
-6. **`favoritesProvider`**: A `NotifierProvider<FavoritesNotifier, Set<int>>` maintaining favorited item IDs.
-
----
-
-## 🚦 Declarative Routing (GoRouter)
-
-Navigation is managed declaratively via `go_router`:
-
-- **Route Configuration (`lib/core/routing/app_router.dart`)**: Configured via Riverpod (`appRouterProvider`) and bound to `MaterialApp.router`.
-- **Route Constants (`lib/core/routing/app_routes.dart`)**:
-  - `AppRoutes.productList`: `'/'` (Catalog list & search)
-  - `AppRoutes.productDetail`: `'/products/:id'` (Deep-linkable product detail view)
-- **Deep Linking & Direct Navigation**:
-  - In-app navigation passes the cached `ProductModel` via `extra` for instantaneous transitions.
-  - Direct URL navigation (e.g. browser URL `/products/1` or deep links) gracefully fetches the product by ID using `productDetailProvider(id)`.
+- **`searchQueryProvider`**: `NotifierProvider<SearchQueryNotifier, String>` holding the current search query.
+- **`selectedCategoryProvider`**: `NotifierProvider<SelectedCategoryNotifier, String?>` holding the active category filter.
+- **`productsListProvider`**: `FutureProvider<List<Product>>` that listens to `searchQueryProvider` and `selectedCategoryProvider`. It fetches filtered or searched data automatically and supports pull-to-refresh via `ref.refresh(productsListProvider.future)`.
+- **`categoriesProvider`**: `FutureProvider<List<String>>` for the categories chip bar.
+- **`productDetailProvider`**: `FutureProvider.family<Product, int>` used when navigating directly by ID / deep link.
+- **`favoritesProvider`**: `NotifierProvider<FavoritesNotifier, Set<int>>` managing favorited product IDs.
 
 ---
 
-## 🛠️ Setup & Run Instructions
+## Routing (GoRouter)
+
+- Declarative routing using `go_router`:
+  - `/` &rarr; `ProductListScreen`
+  - `/products/:id` &rarr; `ProductDetailScreen`
+- Supports passing the `Product` entity via `extra` for immediate transitions when tapping a card.
+- Supports fallback fetching via `productDetailProvider(id)` when navigating directly via URL or deep link.
+
+---
+
+## Getting Started
 
 ### Prerequisites
-- [Flutter SDK](https://flutter.dev/docs/get-started/install) (v3.16.0 or higher, tested on Flutter 3.41.6 / Dart 3.11.4)
-- Supported target: Android, iOS, macOS, or Chrome / Web.
+- Flutter SDK (v3.16.0 or higher)
+- Target device: Android emulator/device, iOS simulator/device, macOS desktop, or Chrome
 
-### 1. Clone & Navigate
-```bash
-cd /path/to/go_unicrew_task
-```
+### Installation & Run
 
-### 2. Install Dependencies
-```bash
-flutter pub get
-```
+1. Clone or extract the repository:
+   ```bash
+   cd go_unicrew_task
+   ```
 
-### 3. Verify Code Quality & Static Analysis
-```bash
-flutter analyze
-```
-*(Result: `No issues found!`)*
+2. Fetch dependencies:
+   ```bash
+   flutter pub get
+   ```
 
-### 4. Run Unit and Widget Tests
-```bash
-flutter test
-```
-*(Result: `All 6 tests passed!`)*
+3. Run static analysis:
+   ```bash
+   flutter analyze
+   ```
 
-### 5. Launch the Application
+4. Run unit and widget tests:
+   ```bash
+   flutter test
+   ```
 
-#### Run on Mobile (Android / iOS):
-```bash
-flutter run
-```
+5. Run the app:
+   ```bash
+   flutter run
+   ```
 
-#### Run on Chrome (Web):
-```bash
-flutter run -d chrome
-```
-
-#### Run on macOS (Desktop):
-```bash
-flutter run -d macos
-```
+   To run on a specific platform:
+   ```bash
+   flutter run -d chrome
+   # or
+   flutter run -d macos
+   ```
 
 ---
 
-## 📡 API Reference
+## API Reference
 
-This app consumes the **DummyJSON Products API**:
-- **Products List**: `GET https://dummyjson.com/products?limit=50&skip=0`
-- **Product Search**: `GET https://dummyjson.com/products/search?q={query}`
-- **Product Categories**: `GET https://dummyjson.com/products/categories`
-- **Products by Category**: `GET https://dummyjson.com/products/category/{category}`
-- **Product Details by ID**: `GET https://dummyjson.com/products/{id}`
-
----
-
-## 🧪 Testing Summary
-
-The test suite covers:
-1. `ReviewModel` JSON parsing and fallback handling.
-2. `ProductModel` JSON parsing, discount calculation, and currency formatting.
-3. `ProductsResponse` pagination and list unwrapping.
-4. `ProductListScreen` widget rendering with mock `ProviderScope` overrides.
-5. `ProductCard` interaction and price display.
-6. `ProductDetailScreen` rendering, specification tiles, and action buttons.
+The app communicates with the [DummyJSON Products API](https://dummyjson.com/docs/products):
+- **All Products**: `GET /products?limit=50&skip=0`
+- **Search**: `GET /products/search?q={query}`
+- **Categories**: `GET /products/categories`
+- **Category Filter**: `GET /products/category/{category}`
+- **Product Details**: `GET /products/{id}`
