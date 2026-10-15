@@ -60,16 +60,16 @@ flutter:
     - assets/images/
 
 flutter_native_splash:
-  color: "#4F46E5"
+  color: "#FFFFFF"
   image: assets/images/splash_logo.png
-  color_dark: "#1E1B4B"
+  color_dark: "#111827"
   image_dark: assets/images/splash_logo.png
 
   android_12:
     image: assets/images/splash_logo_android12.png
-    icon_background_color: "#4F46E5"
+    icon_background_color: "#FFFFFF"
     image_dark: assets/images/splash_logo_android12.png
-    icon_background_color_dark: "#1E1B4B"
+    icon_background_color_dark: "#111827"
 
   android: true
   ios: true
