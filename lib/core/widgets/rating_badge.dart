@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../../core/theme/app_theme.dart';
+import '../theme/app_theme.dart';
 
 class RatingBadge extends StatelessWidget {
   final double rating;
@@ -35,7 +35,7 @@ class RatingBadge extends StatelessWidget {
             style: TextStyle(
               fontSize: fontSize,
               fontWeight: FontWeight.w700,
-              color: const Color(0xFFB45309), // Amber 700
+              color: const Color(0xFFB45309),
             ),
           ),
           if (reviewCount != null) ...[

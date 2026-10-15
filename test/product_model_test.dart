@@ -1,7 +1,7 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:go_unicrew_task/data/models/product_model.dart';
-import 'package:go_unicrew_task/data/models/products_response.dart';
-import 'package:go_unicrew_task/data/models/review_model.dart';
+import 'package:go_unicrew_task/features/products/data/models/product_model.dart';
+import 'package:go_unicrew_task/features/products/data/models/products_response.dart';
+import 'package:go_unicrew_task/features/products/data/models/review_model.dart';
 
 void main() {
   group('ProductModel & ReviewModel Unit Tests', () {

@@ -2,11 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:go_unicrew_task/core/theme/app_theme.dart';
-import 'package:go_unicrew_task/data/models/product_model.dart';
-import 'package:go_unicrew_task/presentation/providers/product_providers.dart';
-import 'package:go_unicrew_task/presentation/screens/product_detail_screen.dart';
-import 'package:go_unicrew_task/presentation/screens/product_list_screen.dart';
-import 'package:go_unicrew_task/presentation/widgets/product_card.dart';
+import 'package:go_unicrew_task/features/products/data/models/product_model.dart';
+import 'package:go_unicrew_task/features/products/presentation/providers/product_providers.dart';
+import 'package:go_unicrew_task/features/products/presentation/screens/product_detail_screen.dart';
+import 'package:go_unicrew_task/features/products/presentation/screens/product_list_screen.dart';
+import 'package:go_unicrew_task/features/products/presentation/widgets/product_card.dart';
 
 void main() {
   final sampleProduct = ProductModel(

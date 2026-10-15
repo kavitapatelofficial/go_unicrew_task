@@ -62,7 +62,6 @@ class _LoadingShimmerGridState extends State<LoadingShimmerGrid>
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  // Image Skeleton
                   Container(
                     height: 140,
                     decoration: BoxDecoration(
@@ -75,7 +74,6 @@ class _LoadingShimmerGridState extends State<LoadingShimmerGrid>
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        // Tag skeleton
                         Container(
                           width: 50,
                           height: 12,
@@ -85,7 +83,6 @@ class _LoadingShimmerGridState extends State<LoadingShimmerGrid>
                           ),
                         ),
                         const SizedBox(height: 8),
-                        // Title skeleton line 1
                         Container(
                           width: double.infinity,
                           height: 14,
@@ -95,7 +92,6 @@ class _LoadingShimmerGridState extends State<LoadingShimmerGrid>
                           ),
                         ),
                         const SizedBox(height: 6),
-                        // Title skeleton line 2
                         Container(
                           width: 80,
                           height: 14,
@@ -105,7 +101,6 @@ class _LoadingShimmerGridState extends State<LoadingShimmerGrid>
                           ),
                         ),
                         const SizedBox(height: 12),
-                        // Price skeleton
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [

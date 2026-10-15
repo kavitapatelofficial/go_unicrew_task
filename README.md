@@ -37,43 +37,48 @@ A modern, responsive, and robust Flutter e-commerce product catalog application 
 
 ## 🏗️ Architecture & Project Structure
 
-The project strictly follows **Clean Layered Architecture** with separation of concerns:
+The project strictly follows **Feature-First Architecture** (Feature-driven / Clean Architecture by feature):
 
 ```text
 lib/
-├── core/
+├── core/                               # Core shared foundation
 │   ├── constants/
 │   │   └── api_constants.dart          # Base URLs, API endpoints, timeouts
 │   ├── network/
 │   │   ├── api_client.dart             # HTTP client wrapper with error interceptors
 │   │   └── api_exception.dart          # Custom typed network & API exceptions
-│   └── theme/
-│       └── app_theme.dart              # Custom design system, typography & colors
-├── data/
-│   ├── models/
-│   │   ├── product_model.dart          # Product domain/API model with helpers
-│   │   ├── products_response.dart      # Paginated response wrapper
-│   │   └── review_model.dart           # Customer review data model
-│   ├── repositories/
-│   │   └── product_repository.dart     # Single source of truth for products data
-│   └── services/
-│       └── product_api_service.dart    # Raw HTTP requests to DummyJSON endpoints
-├── presentation/
-│   ├── providers/
-│   │   └── product_providers.dart      # Riverpod providers (products, search, categories, favorites)
-│   ├── screens/
-│   │   ├── product_list_screen.dart    # Main screen with search, categories, pull-to-refresh & grid
-│   │   └── product_detail_screen.dart  # Detailed product screen with gallery, specs & reviews
-│   └── widgets/
-│       ├── category_filter_bar.dart    # Horizontal category chip bar
+│   ├── theme/
+│   │   └── app_theme.dart              # Custom design system, typography & colors
+│   └── widgets/                        # Shared reusable UI widgets across all features
 │       ├── custom_network_image.dart   # Image loader with progress & fallback
 │       ├── empty_state_widget.dart     # Friendly empty search/filter view
 │       ├── error_state_widget.dart     # Retryable network error view
-│       ├── image_gallery_slider.dart   # Swipeable image carousel with dots
 │       ├── loading_shimmer.dart        # Pulsing skeleton loading grid
-│       ├── product_card.dart           # Reusable product grid item card
-│       ├── rating_badge.dart           # Star rating & review count pill
-│       └── search_bar_widget.dart      # Debounced search bar with clear button
+│       └── rating_badge.dart           # Star rating & review count pill
+│
+├── features/
+│   └── products/                       # Products Feature (Catalog, Detail, Search, Filtering)
+│       ├── data/
+│       │   ├── models/
+│       │   │   ├── product_model.dart      # Product domain/API model with helpers
+│       │   │   ├── products_response.dart  # Paginated response wrapper
+│       │   │   └── review_model.dart       # Customer review data model
+│       │   ├── repositories/
+│       │   │   └── product_repository.dart # Single source of truth for products data
+│       │   └── services/
+│       │       └── product_api_service.dart# Raw HTTP requests to DummyJSON endpoints
+│       └── presentation/
+│           ├── providers/
+│           │   └── product_providers.dart  # Riverpod providers (products, search, categories, favorites)
+│           ├── screens/
+│           │   ├── product_list_screen.dart    # Main screen with search, categories & grid
+│           │   └── product_detail_screen.dart  # Detail screen with gallery, specs & reviews
+│           └── widgets/
+│               ├── category_filter_bar.dart    # Category chip bar
+│               ├── image_gallery_slider.dart   # Swipeable image carousel with dots
+│               ├── product_card.dart           # Product grid item card
+│               └── search_bar_widget.dart      # Debounced search bar with clear button
+│
 └── main.dart                           # App entry point with ProviderScope & MaterialApp
 ```
 

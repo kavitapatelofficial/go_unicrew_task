@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import '../../core/theme/app_theme.dart';
+import '../../../../core/theme/app_theme.dart';
+import '../../../../core/widgets/custom_network_image.dart';
+import '../../../../core/widgets/rating_badge.dart';
 import '../../data/models/product_model.dart';
 import '../providers/product_providers.dart';
-import 'custom_network_image.dart';
-import 'rating_badge.dart';
 
 class ProductCard extends ConsumerWidget {
   final ProductModel product;
@@ -122,7 +122,6 @@ class ProductCard extends ConsumerWidget {
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          // Category or Brand
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
@@ -145,7 +144,6 @@ class ProductCard extends ConsumerWidget {
                             ],
                           ),
                           const SizedBox(height: 5),
-                          // Title
                           Text(
                             product.title,
                             maxLines: 2,

@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import '../../core/theme/app_theme.dart';
+import '../../../../core/theme/app_theme.dart';
+import '../../../../core/widgets/rating_badge.dart';
 import '../../data/models/product_model.dart';
 import '../providers/product_providers.dart';
 import '../widgets/image_gallery_slider.dart';
-import '../widgets/rating_badge.dart';
 
 class ProductDetailScreen extends ConsumerWidget {
   final ProductModel product;
@@ -352,7 +352,7 @@ class ProductDetailScreen extends ConsumerWidget {
                       );
                     }),
                   ],
-                  const SizedBox(height: 80), // Padding for bottom action bar
+                  const SizedBox(height: 80),
                 ],
               ),
             ),

@@ -1,5 +1,5 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import '../../core/network/api_client.dart';
+import '../../../../core/network/api_client.dart';
 import '../../data/models/product_model.dart';
 import '../../data/repositories/product_repository.dart';
 import '../../data/services/product_api_service.dart';
@@ -51,7 +51,6 @@ final categoriesProvider = FutureProvider<List<String>>((ref) async {
 });
 
 // Main Products Provider
-// Automatically updates when searchQueryProvider or selectedCategoryProvider changes
 final productsListProvider = FutureProvider<List<ProductModel>>((ref) async {
   final repository = ref.watch(productRepositoryProvider);
   final searchQuery = ref.watch(searchQueryProvider).trim();
@@ -77,7 +76,7 @@ final productDetailProvider = FutureProvider.family<ProductModel, int>((ref, pro
   return repository.getProductDetails(productId);
 });
 
-// Favorites Notifier to allow favoriting products in the UI
+// Favorites Notifier
 class FavoritesNotifier extends Notifier<Set<int>> {
   @override
   Set<int> build() => {};

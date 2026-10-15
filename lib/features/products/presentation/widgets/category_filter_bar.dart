@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import '../../core/theme/app_theme.dart';
+import '../../../../core/theme/app_theme.dart';
 import '../providers/product_providers.dart';
 
 class CategoryFilterBar extends ConsumerWidget {
@@ -54,7 +54,6 @@ class CategoryFilterBar extends ConsumerWidget {
                   } else {
                     ref.read(selectedCategoryProvider.notifier).selectCategory(selected ? cat : null);
                   }
-                  // Clear search query if user picks a category
                   if (ref.read(searchQueryProvider).isNotEmpty) {
                     ref.read(searchQueryProvider.notifier).clear();
                   }

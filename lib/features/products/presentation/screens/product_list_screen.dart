@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import '../../core/theme/app_theme.dart';
+import '../../../../core/theme/app_theme.dart';
+import '../../../../core/widgets/empty_state_widget.dart';
+import '../../../../core/widgets/error_state_widget.dart';
+import '../../../../core/widgets/loading_shimmer.dart';
 import '../../data/models/product_model.dart';
 import '../providers/product_providers.dart';
 import '../widgets/category_filter_bar.dart';
-import '../widgets/empty_state_widget.dart';
-import '../widgets/error_state_widget.dart';
-import '../widgets/loading_shimmer.dart';
 import '../widgets/product_card.dart';
 import '../widgets/search_bar_widget.dart';
 import 'product_detail_screen.dart';
@@ -174,7 +174,7 @@ class ProductListScreen extends ConsumerWidget {
                 physics: AlwaysScrollableScrollPhysics(),
                 child: LoadingShimmerGrid(itemCount: 6),
               ),
-              error: (error, stackTrace) => RefreshIndicator(
+              error: (error, _) => RefreshIndicator(
                 color: AppTheme.primary,
                 onRefresh: () async {
                   return ref.refresh(productsListProvider.future);
@@ -219,12 +219,10 @@ class ProductListScreen extends ConsumerWidget {
                 return RefreshIndicator(
                   color: AppTheme.primary,
                   onRefresh: () async {
-                    // Pull-to-refresh execution
                     return ref.refresh(productsListProvider.future);
                   },
                   child: LayoutBuilder(
                     builder: (context, constraints) {
-                      // Adapt crossAxisCount for wider displays (tablets/desktops/web)
                       int crossAxisCount = 2;
                       if (constraints.maxWidth > 900) {
                         crossAxisCount = 4;

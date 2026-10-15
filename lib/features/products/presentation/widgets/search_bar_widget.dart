@@ -1,7 +1,7 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import '../../core/theme/app_theme.dart';
+import '../../../../core/theme/app_theme.dart';
 import '../providers/product_providers.dart';
 
 class SearchBarWidget extends ConsumerStatefulWidget {
@@ -54,7 +54,6 @@ class _SearchBarWidgetState extends ConsumerState<SearchBarWidget> {
   @override
   Widget build(BuildContext context) {
     final currentQuery = ref.watch(searchQueryProvider);
-    // Keep text controller in sync if cleared externally
     if (currentQuery.isEmpty && _controller.text.isNotEmpty) {
       _controller.clear();
     }

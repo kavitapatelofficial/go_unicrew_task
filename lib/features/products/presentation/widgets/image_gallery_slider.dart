@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import '../../core/theme/app_theme.dart';
-import 'custom_network_image.dart';
+import '../../../../core/theme/app_theme.dart';
+import '../../../../core/widgets/custom_network_image.dart';
 
 class ImageGallerySlider extends StatefulWidget {
   final List<String> images;
@@ -57,7 +57,6 @@ class _ImageGallerySliderState extends State<ImageGallerySlider> {
                 height: 320,
               );
 
-              // Use Hero animation only on the primary/first image
               if (index == 0) {
                 return Hero(
                   tag: widget.heroTag,
