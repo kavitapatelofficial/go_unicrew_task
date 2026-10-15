@@ -5,8 +5,8 @@ import 'package:go_unicrew_task/core/theme/app_theme.dart';
 import 'package:go_unicrew_task/features/products/data/models/product_model.dart';
 import 'package:go_unicrew_task/features/products/presentation/providers/product_providers.dart';
 import 'package:go_unicrew_task/features/products/presentation/screens/product_detail_screen.dart';
-import 'package:go_unicrew_task/features/products/presentation/screens/product_list_screen.dart';
 import 'package:go_unicrew_task/features/products/presentation/widgets/product_card.dart';
+import 'package:go_unicrew_task/main.dart';
 
 void main() {
   final sampleProduct = ProductModel(
@@ -29,24 +29,19 @@ void main() {
     thumbnail: 'https://dummyjson.com/test.png',
   );
 
-  testWidgets('UniStore App bar and search bar render smoke test', (WidgetTester tester) async {
+  testWidgets('MyApp boots with MaterialApp.router smoke test', (WidgetTester tester) async {
     await tester.pumpWidget(
       ProviderScope(
         overrides: [
           productsListProvider.overrideWith((ref) => Future.value([sampleProduct])),
           categoriesProvider.overrideWith((ref) => Future.value(['beauty', 'fragrances'])),
         ],
-        child: MaterialApp(
-          theme: AppTheme.lightTheme,
-          home: const ProductListScreen(),
-        ),
+        child: const MyApp(),
       ),
     );
 
-    // Initial pump
-    await tester.pump();
+    await tester.pumpAndSettle();
 
-    // Verify UniStore title is visible
     expect(find.text('UniStore'), findsOneWidget);
     expect(find.byType(TextField), findsOneWidget);
   });

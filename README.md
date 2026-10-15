@@ -47,6 +47,9 @@ lib/
 │   ├── network/
 │   │   ├── api_client.dart             # HTTP client wrapper with error interceptors
 │   │   └── api_exception.dart          # Custom typed network & API exceptions
+│   ├── routing/
+│   │   ├── app_router.dart             # GoRouter instance & deep linking configuration
+│   │   └── app_routes.dart             # Route path definitions & helpers
 │   ├── theme/
 │   │   └── app_theme.dart              # Custom design system, typography & colors
 │   └── widgets/                        # Shared reusable UI widgets across all features
@@ -94,6 +97,20 @@ The application uses `flutter_riverpod` (v3.x / modern `Notifier` pattern):
 4. **`productsListProvider`**: A `FutureProvider<List<ProductModel>>` that automatically refetches whenever the search query or category filter changes, and smoothly invalidates on pull-to-refresh (`ref.refresh(productsListProvider.future)`).
 5. **`categoriesProvider`**: A `FutureProvider<List<String>>` fetching available categories from the API.
 6. **`favoritesProvider`**: A `NotifierProvider<FavoritesNotifier, Set<int>>` maintaining favorited item IDs.
+
+---
+
+## 🚦 Declarative Routing (GoRouter)
+
+Navigation is managed declaratively via `go_router`:
+
+- **Route Configuration (`lib/core/routing/app_router.dart`)**: Configured via Riverpod (`appRouterProvider`) and bound to `MaterialApp.router`.
+- **Route Constants (`lib/core/routing/app_routes.dart`)**:
+  - `AppRoutes.productList`: `'/'` (Catalog list & search)
+  - `AppRoutes.productDetail`: `'/products/:id'` (Deep-linkable product detail view)
+- **Deep Linking & Direct Navigation**:
+  - In-app navigation passes the cached `ProductModel` via `extra` for instantaneous transitions.
+  - Direct URL navigation (e.g. browser URL `/products/1` or deep links) gracefully fetches the product by ID using `productDetailProvider(id)`.
 
 ---
 

@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
+import '../../../../core/routing/app_routes.dart';
 import '../../../../core/theme/app_theme.dart';
 import '../../../../core/widgets/empty_state_widget.dart';
 import '../../../../core/widgets/error_state_widget.dart';
@@ -9,7 +11,6 @@ import '../providers/product_providers.dart';
 import '../widgets/category_filter_bar.dart';
 import '../widgets/product_card.dart';
 import '../widgets/search_bar_widget.dart';
-import 'product_detail_screen.dart';
 
 class ProductListScreen extends ConsumerWidget {
   const ProductListScreen({super.key});
@@ -262,10 +263,6 @@ class ProductListScreen extends ConsumerWidget {
   }
 
   void _navigateToDetail(BuildContext context, ProductModel product) {
-    Navigator.of(context).push(
-      MaterialPageRoute(
-        builder: (context) => ProductDetailScreen(product: product),
-      ),
-    );
+    context.push(AppRoutes.productDetailPath(product.id), extra: product);
   }
 }
