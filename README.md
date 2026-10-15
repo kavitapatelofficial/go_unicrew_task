@@ -26,6 +26,7 @@ A Flutter e-commerce product catalog application built for the Go UniCrew techni
   - Specifications breakdown (SKU, Warranty, Shipping, Return Policy, Minimum Order Quantity).
   - Customer reviews list with reviewer name, star rating, and feedback comment.
   - Sticky bottom action bar with `SafeArea` padding.
+- **Native Splash Screen**: Custom branded splash screen configured natively for Android (including Android 12+ Splash API) and iOS with UniStore brand colors (`#4F46E5`), replacing the default blank/white startup screen.
 - **Favorites**: In-memory favorite toggle per product with app bar badge counter.
 
 ---
